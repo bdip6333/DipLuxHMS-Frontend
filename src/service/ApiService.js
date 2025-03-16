@@ -1,24 +1,27 @@
 import axios from "axios";
 import CryptoJS from "crypto-js";
 
-
-
-
 export default class ApiService {
 
     static BASE_URL = "http://localhost:9090/api";
     static ENCRYPTION_KEY = "dip-secrete-key";
 
-    //enctyp token using cruyptojs
-
+    //encrypt token using cryptojs
     static encrypt(token) {
         return CryptoJS.AES.encrypt(token, this.ENCRYPTION_KEY.toString());
     }
 
-    //deceype token using cruyptojs
+    //decrypt token using cryptojs
     static decrypt(token) {
-        const bytes = CryptoJS.AES.decrypt(token, this.ENCRYPTION_KEY);
-        return bytes.toString(CryptoJS.enc.Utf8);
+        try {
+            const bytes = CryptoJS.AES.decrypt(token, this.ENCRYPTION_KEY.toString());
+            return bytes.toString(CryptoJS.enc.Utf8);
+        } catch (error) {
+            console.error("Decryption error:", error);
+            // Clear potentially corrupted tokens
+            this.clearAuth();
+            return null;
+        }
     }
 
     //save token
@@ -27,11 +30,16 @@ export default class ApiService {
         localStorage.setItem("token", encrytpedToken);
     }
 
-    //retreive token
+    //retrieve token
     static getToken() {
-        const encrytpedToken = localStorage.getItem("token");
-        if (!encrytpedToken) return null;
-        return this.decrypt(encrytpedToken)
+        try {
+            const encrytpedToken = localStorage.getItem("token");
+            if (!encrytpedToken) return null;
+            return this.decrypt(encrytpedToken);
+        } catch (error) {
+            console.error("Error getting token:", error);
+            return null;
+        }
     }
 
     //save role
@@ -40,12 +48,16 @@ export default class ApiService {
         localStorage.setItem("role", encrytpedRole);
     }
 
-
     //get role
     static getRole() {
-        const encrytpedRole = localStorage.getItem("role");
-        if (!encrytpedRole) return null;
-        return this.decrypt(encrytpedRole)
+        try {
+            const encrytpedRole = localStorage.getItem("role");
+            if (!encrytpedRole) return null;
+            return this.decrypt(encrytpedRole);
+        } catch (error) {
+            console.error("Error getting role:", error);
+            return null;
+        }
     }
 
     static clearAuth() {
@@ -68,7 +80,6 @@ export default class ApiService {
         const resp = await axios.post(`${this.BASE_URL}/auth/register`, registrationData);
         return resp.data;
     }
-
 
     static async loginUser(loginData) {
         const resp = await axios.post(`${this.BASE_URL}/auth/login`, loginData);
@@ -98,7 +109,6 @@ export default class ApiService {
     }
 
     // ROOMS
-
     static async addRoom(formData) {
         const resp = await axios.post(`${this.BASE_URL}/rooms/add`, formData, {
             headers: {
@@ -145,15 +155,12 @@ export default class ApiService {
     }
 
     static async getAvailableRooms(checkInDate, checkOutDate, roomType) {
-
         console.log("checkInDate from api: " + checkInDate)
         console.log("checkOutDate from api: " + checkOutDate)
 
         const resp = await axios.get(`${this.BASE_URL}/rooms/available?checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&roomType=${roomType}`);
         return resp.data;
-
     }
-
 
     //BOOKINGS
     static async getBookingByReference(bookingCode) {
@@ -182,13 +189,13 @@ export default class ApiService {
         return resp.data;
     }
 
-    //PAYMMENT 
-    //funtion to create payment intent
+    //PAYMENT 
+    //function to create payment intent
     static async proceedForPayment(body) {
         const resp = await axios.post(`${this.BASE_URL}/payments/pay`, body, {
             headers: this.getHeader()
         });
-        return resp.data; //return the strip transaction id for this transaction
+        return resp.data; //return the stripe transaction id for this transaction
     }
 
     //TO UPDATE PAYMENT WHEN IT HAS BEEN COMPLETED
@@ -199,31 +206,38 @@ export default class ApiService {
         return resp.data;
     }
 
-
-
     //AUTHENTICATION CHECKER
-    static logout(){
+    static logout() {
         this.clearAuth();
     }
 
-    static isAthenticated(){
-        const token = this.getToken();
-        return !!token;
+    static isAthenticated() {
+        try {
+            const token = this.getToken();
+            return !!token;
+        } catch (error) {
+            console.error("Authentication check error:", error);
+            return false;
+        }
     }
 
-    static isAdmin(){
-        const role = this.getRole();
-        return role === "ADMIN";
+    static isAdmin() {
+        try {
+            const role = this.getRole();
+            return role === "ADMIN";
+        } catch (error) {
+            console.error("Admin check error:", error);
+            return false;
+        }
     }
 
-    static isCustomer(){
-        const role = this.getRole();
-        return role === "CUSTOMER";
+    static isCustomer() {
+        try {
+            const role = this.getRole();
+            return role === "CUSTOMER";
+        } catch (error) {
+            console.error("Customer check error:", error);
+            return false;
+        }
     }
-
-
-    
-
-
-
 }
