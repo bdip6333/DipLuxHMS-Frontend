@@ -21,7 +21,7 @@ const HomePage = () => {
                     <img src="./images/bg.jpg" alt="Hotel" className="header-image" />
                     <div className="overlay"></div>
                     <div className="animated-texts overlay-content">
-                        <h1>Welcome to <span className="phegon-color">DipLux Hotel</span></h1> <br/>
+                        <h1>Welcome to <span className="phegon-color">DipLux Hotell</span></h1> <br/>
                         <h3>Step into a haven of comfort and care</h3>
                     </div>
                 </header>
