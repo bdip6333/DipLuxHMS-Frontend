@@ -3,7 +3,7 @@ import CryptoJS from "crypto-js";
 
 export default class ApiService {
 
-    static BASE_URL = "http://localhost:9090/api";
+    static BASE_URL = "https://hotelbookingbackend-b3lj.onrender.com";
     static ENCRYPTION_KEY = "dip-secrete-key";
 
     //encrypt token using cryptojs
