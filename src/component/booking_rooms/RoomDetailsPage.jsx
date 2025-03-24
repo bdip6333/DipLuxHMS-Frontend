@@ -110,7 +110,7 @@ const RoomDetailsPage = () => {
         <h3>{type}</h3>
         <p>Room Number: {roomNumber}</p>
         <p>Capacity: {capacity}</p>
-        <p>Price: ${pricePerNight} / night</p>
+        <p>Price: @{pricePerNight} / night</p>
         <p>{description}</p>
       </div>
 
@@ -164,7 +164,7 @@ const RoomDetailsPage = () => {
               <strong>Total Days To Stay:</strong> {totalDaysToStay}
             </p>
             <p>
-              <strong>Total Price:</strong> ${totalPrice}
+              <strong>Total Price:</strong> @{totalPrice}
             </p>
             <button onClick={acceptBooking}>Confirm and Book</button>
             <button

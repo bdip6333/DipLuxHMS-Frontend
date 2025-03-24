@@ -3,7 +3,8 @@ import CryptoJS from "crypto-js";
 
 export default class ApiService {
 
-    static BASE_URL = "https://hotelbookingbackend-b3lj.onrender.com";
+    static BASE_URL = "https://hotel-springboot-backend.onrender.com/api"
+    // "https://hotelbookingbackend-b3lj.onrender.com/api"
     static ENCRYPTION_KEY = "dip-secrete-key";
 
     //encrypt token using cryptojs

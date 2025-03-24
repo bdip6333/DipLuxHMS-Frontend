@@ -25,7 +25,7 @@ function Navbar() {
                 <NavLink to="/home"> DipLux Hotel </NavLink>
             </div>
 
-            <ul className="navbar-ul">
+            <ul className="navbar-ul" color="Black">
                 <li><NavLink to={"/home"} activeClassname="active">Home</NavLink></li>
                 <li><NavLink to={"/rooms"} activeClassname="active">Rooms</NavLink></li>
                 <li><NavLink to={"/find-booking"} activeClassname="active">Find My Bookings</NavLink></li>
