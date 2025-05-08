@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./component/common/Navbar";
 import Footer from "./component/common/Footer";
 import RegisterPage from "./component/auth/Register";
-import LoginPage from "./component/auth/LoginPage";
+import LoginPage from "./component/auth/LoginPage1";
 import HomePage from "./component/home/HomePage";
 import AllRoomsPage from "./component/booking_rooms/AllRoomsPage";
 import RoomDetailsPage from "./component/booking_rooms/RoomDetailsPage";
